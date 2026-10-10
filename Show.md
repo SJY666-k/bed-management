@@ -2464,28 +2464,3 @@ BedDetailsVO { id, customerId, customerName, customerSex, bedDetails, startDate,
 > - 每一个知识点的原理（Java / HTTP / 数据库 / Vue / Git…）都在 **`README.md` 后半部分的「零基础复习手册」**（19 节 + 8 个踩坑复盘 + 30 道自测题）。
 > - 只想跑起来看效果 → 看 **`README.md` 顶部的「克隆后 3 步跑起来」**。
 > - 想换成真实截图 → 看 **`docs/images/README.md`**。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
