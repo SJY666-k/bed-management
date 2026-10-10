@@ -12,6 +12,7 @@ d:\床位管理（2）
 ├── verify\                  # 接口自测脚本（api-test.ps1，32 项断言）
 ├── docs\images\             # 界面截图（README 顶部「📸 界面预览」用的图）
 ├── settings.xml             # Maven 阿里云镜像配置（可选，构建时 -s 指定）
+├── Show.md                  # 📖 项目讲解手册：每个文件干啥用 + 前后端如何串起来（零基础也能看懂）
 └── README.md                # 本文件
 ```
 
