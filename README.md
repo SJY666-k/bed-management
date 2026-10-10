@@ -1940,13 +1940,74 @@ if ($ok) { $script:pass++ } else { $script:fail++ }
 
 > 这套思路（**给定输入 → 断言 HTTP 状态码 + 响应内容 → 统计通过与失败**）就是自动化测试的雏形。以后学 JUnit / Postman Collection 都是同一个套路。
 
-### 14.6 你应该能回答
+### 14.6 Git 与 GitHub：本地版本管理 + 把代码传到远程仓库
+
+**先分清三个东西**：
+
+| 名字 | 是什么 | 在哪 |
+| --- | --- | --- |
+| **Git** | 版本管理工具，记录"谁在什么时候改了哪一行" | 装在你电脑上 |
+| **GitHub** | 代码托管网站，用来放 Git 仓库、给别人看 | 云上（github.com） |
+| **仓库 repository** | 被 Git 管理的那一堆文件的"+ 全部历史" | 本地隐藏目录 `.git` |
+
+**三个区域（理解这张图，Git 就学会一半）**：
+
+```
+工作区（你在文件夹里看到的文件） --git add--> 暂存区 --git commit--> 本地仓库 --git push--> 远程仓库(GitHub)
+                                    ↑ 选哪些改动要提交          ↑ 存成一个快照          ↑ 上传
+```
+
+**本项目实际用到的命令（按顺序）**：
+
+```bash
+git init                        # ① 把当前文件夹变成 Git 仓库（一个项目只做一次）
+git status --short              # ② 看状态：?? = 新文件没跟踪，M = 改了，A = 已暂存
+git add -A                      # ③ 把所有改动放进暂存区（-A = 全部）
+git commit -m "这次改了什么"     # ④ 存成一个快照（只存在你电脑上）
+git log --oneline               # ⑤ 看历史快照列表（按 q 退出）
+git remote add origin https://github.com/你的用户名/仓库名.git   # ⑥ 关联远程仓库（只做一次）
+git push -u origin main         # ⑦ 推送到 GitHub（第一次会让你登录）
+```
+
+**口诀**：`add` 是"选",`commit` 是"存档",`push` 是"上传"。**只 add 不 commit，什么都不会发生；只 commit 不 push，GitHub 上什么都看不到。**
+
+**什么该传？什么不该传？** 只传**源码 / 配置 / 脚本 / 文档**；"能自动再生成的东西"一律不传：
+
+| 不传 | 为什么 | 谁生成 |
+| --- | --- | --- |
+| `target/`（本项目里含 33MB 的 fat jar） | `mvn package` 随时能再生成 | Maven |
+| `node_modules/`（111MB、上万个文件） | `npm install` 随时能再生成 | npm |
+| `dist/` | `npm run build` 的产物 | Vite |
+| `*.log`、`*.mv.db` | 运行时的临时文件/数据库文件 | 程序自己 |
+| `.env`、`*.key`、`*.pem`、`application-local.yml` | **密码密钥，传了就是安全事故** | 你 |
+
+告诉 Git"哪些不要传"的办法：在仓库根目录放一个 **`.gitignore`** 文件（本项目根目录已有一份，注释里写清了每条规则的原因）。配套的 **`.gitattributes`** 用来统一换行符（Windows 的 CRLF / Linux 的 LF）并声明二进制文件，避免别人克隆后看到"整个文件都被改了"的假 diff。
+
+**两个救命技能**：
+
+```bash
+git check-ignore -v 某个文件     # 查"这个文件到底为什么没被跟踪 / 为什么被忽略"
+git restore --staged 某个文件     # 反悔：把它从暂存区拿出来（还没 commit 时有效）
+```
+
+**新手必踩的坑**：没配置身份时 Git 会拒绝提交（报 `Please tell me who you are`）。第一次用先设置一次（`--global` 表示对这台电脑所有仓库生效）：
+
+```bash
+git config --global user.name "你的名字"
+git config --global user.email "你的GitHub注册邮箱"
+```
+
+**最后：为什么要用 Git**（面试必问）：① 每次改动都有快照，随时能回退；② 出问题能查出是哪次提交引入的；③ 多人协作靠分支 + 合并；④ GitHub 上的提交记录就是你的作品集与学习痕迹。
+
+### 14.7 你应该能回答
 
 1. `groupId`、`artifactId`、`version` 三个坐标分别表示什么？
 2. `scope=runtime` 和默认 scope 有什么区别？JDBC 驱动为什么是 runtime？
 3. 为什么改完代码后 `mvn package` 会报"jar 被占用"？
 4. 怎么确认 8080 端口上跑的是不是你的服务？
 5. 为什么值得写接口自测脚本？
+6. `git add`、`git commit`、`git push` 三步分别把代码放到了哪里？
+7. 为什么 `node_modules/` 和 `target/` 不用上传？别人克隆后靠什么拿到它们？
 
 ---
 
