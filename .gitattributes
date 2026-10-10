@@ -1,0 +1,44 @@
+# ============================================================
+#  .gitattributes —— 统一换行符 + 声明文件类型
+#
+#  为什么需要它？
+#  1) Windows 用 CRLF 换行，Linux/Mac 用 LF。不统一的话，
+#     别人克隆下来会看到「整个文件都被改了」的假 diff，根本没法 review。
+#  2) 二进制文件（jar、图片、字体）如果被当成文本转换，文件会直接损坏。
+# ============================================================
+
+# 自动识别文本文件：仓库里统一存 LF，Windows 检出时按需转回 CRLF
+* text=auto
+
+# ---------- Windows 脚本：检出时保留 CRLF ----------
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# ---------- Linux / macOS 脚本：强制 LF（否则在 Linux 上会报 bad interpreter） ----------
+*.sh   text eol=lf
+*.bash text eol=lf
+
+# ---------- 二进制文件：禁止任何换行符/编码转换 ----------
+*.jar   binary
+*.war   binary
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.bmp   binary
+*.ico   binary
+*.webp  binary
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.eot   binary
+*.pdf   binary
+*.xlsx  binary
+*.xls   binary
+*.docx  binary
+*.mv.db binary
+
+# ---------- 让 GitHub 的「语言统计」更准确 ----------
+# package-lock.json 是 npm 自动生成的，算作"生成文件"，不参与语言占比
+care-center-ui-main/package-lock.json linguist-generated

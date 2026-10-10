@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neusoft.yiyang.mapper.BedDetailsMapper">
+
+    <!--
+        床位管理列表：beddetails 联查 customer 拿到姓名、性别。
+        三个查询条件都是可选的（多条件组合查询），因此用 <if> 动态拼接。
+    -->
+    <select id="selectDetailsList" resultType="com.neusoft.yiyang.vo.BedDetailsVO">
+        SELECT bd.id          AS id,
+               bd.customer_id AS customerId,
+               c.customer_name AS customerName,
+               c.customer_sex  AS customerSex,
+               bd.bed_details  AS bedDetails,
+               bd.start_date   AS startDate,
+               bd.end_date     AS endDate
+        FROM beddetails bd
+                 LEFT JOIN customer c ON c.id = bd.customer_id
+        WHERE bd.is_deleted = #{isDeleted}
+        <if test="customerName != null and customerName != ''">
+            AND c.customer_name LIKE CONCAT('%', #{customerName}, '%')
+        </if>
+        <if test="startDate != null and startDate != ''">
+            AND bd.start_date &gt;= #{startDate}
+        </if>
+        ORDER BY bd.start_date DESC, bd.id DESC
+    </select>
+
+</mapper>

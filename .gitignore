@@ -1,0 +1,86 @@
+# ============================================================
+#  .gitignore —— 告诉 Git「哪些文件不要上传到 GitHub」
+#
+#  原则：仓库里只放【源码 / 配置 / 脚本 / 文档】；
+#        编译产物、第三方依赖、IDE 缓存、日志、密钥 一律不上传。
+#  下面每条规则对所有子目录都生效。
+# ============================================================
+
+# ---------- 1) Java / Maven 编译产物 ----------
+# target/ 是 mvn package 生成的，里面有个 33MB 的 jar，绝不能传
+target/
+*.class
+*.jar
+!.mvn/wrapper/maven-wrapper.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*.log
+replay_pid*.log
+
+# ---------- 2) 前端依赖与构建产物 ----------
+# node_modules/ 有 11 万个文件、111MB，别人只要 npm install 就能自己生成
+node_modules/
+dist/
+dist-ssr/
+.vite/
+.cache/
+.eslintcache
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ---------- 3) 数据库运行时文件（数据由 SQL 脚本初始化，不需要传） ----------
+*.mv.db
+*.trace.db
+*.lock.db
+*.sqlite
+*.sqlite3
+
+# ---------- 4) 日志与临时文件 ----------
+logs/
+*.log
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+*.swp
+*~
+
+# ---------- 5) IDE / 编辑器（只保留 .vscode/settings.json 这类团队共享配置） ----------
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+.settings/
+.project
+.classpath
+.factorypath
+*.code-workspace
+
+# ---------- 6) 操作系统垃圾文件 ----------
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+desktop.ini
+.DS_Store
+$RECYCLE.BIN/
+
+# ---------- 7) 敏感信息：永远不要上传 ----------
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.p12
+*.jks
+application-local.yml
+application-local.yaml
+
+# ---------- 8) 本机开发工具自动生成的辅助目录 ----------
+.github/modernize/
