@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-label="床位示意图页面截图占位图">
+  <title>床位示意图页面截图（占位图）</title>
+  <rect width="960" height="540" fill="#f7f8fa"/>
+  <rect x="10" y="10" width="940" height="520" rx="14" fill="none" stroke="#c0c4cc" stroke-width="2" stroke-dasharray="12 8"/>
+  <text x="480" y="200" text-anchor="middle" font-family="Microsoft YaHei, Segoe UI, sans-serif" font-size="38" font-weight="bold" fill="#606266">床位示意图（占位图）</text>
+  <text x="480" y="252" text-anchor="middle" font-family="Microsoft YaHei, Segoe UI, sans-serif" font-size="22" fill="#909399">一层 101~106 / 二层 201~206，48 张床位三色显示状态</text>
+  <text x="360" y="310" text-anchor="middle" font-family="Microsoft YaHei, Segoe UI, sans-serif" font-size="22" fill="#67C23A">绿 = 空闲</text>
+  <text x="480" y="310" text-anchor="middle" font-family="Microsoft YaHei, Segoe UI, sans-serif" font-size="22" fill="#409EFF">蓝 = 有人</text>
+  <text x="600" y="310" text-anchor="middle" font-family="Microsoft YaHei, Segoe UI, sans-serif" font-size="22" fill="#E6A23C">橙 = 外出</text>
+  <text x="480" y="392" text-anchor="middle" font-family="Microsoft YaHei, Segoe UI, sans-serif" font-size="20" fill="#b1b3b8">替换：把真实截图存为 docs/images/01-bed-map.png</text>
+  <text x="480" y="424" text-anchor="middle" font-family="Microsoft YaHei, Segoe UI, sans-serif" font-size="20" fill="#b1b3b8">再把 README「📸 界面预览」里的 .svg 改成 .png</text>
+</svg>

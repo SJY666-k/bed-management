@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-label="接口自测 32 项通过截图占位图">
+  <title>接口自测 32 项通过（占位图）</title>
+  <rect width="960" height="540" fill="#f7f8fa"/>
+  <rect x="10" y="10" width="940" height="520" rx="14" fill="none" stroke="#c0c4cc" stroke-width="2" stroke-dasharray="12 8"/>
+  <rect x="80" y="150" width="800" height="240" rx="10" fill="#1e1e1e"/>
+  <text x="112" y="196" font-family="Consolas, Consolas, monospace" font-size="19" fill="#9cdcfe">powershell -ExecutionPolicy Bypass -File verify\api-test.ps1</text>
+  <text x="112" y="240" font-family="Consolas, Consolas, monospace" font-size="19" fill="#d4d4d4">GET  /bed/statistics ............ 200  通过</text>
+  <text x="112" y="272" font-family="Consolas, Consolas, monospace" font-size="19" fill="#d4d4d4">GET  /bed/map?floor=1 ........... 200  通过</text>
+  <text x="112" y="304" font-family="Consolas, Consolas, monospace" font-size="19" fill="#d4d4d4">PUT  /bed/manage/updateEndTime .. 400  通过</text>
+  <text x="112" y="340" font-family="Consolas, Consolas, monospace" font-size="19" fill="#4ec9b0">通过 32 / 失败 0</text>
+  <text x="480" y="446" text-anchor="middle" font-family="Microsoft YaHei, Segoe UI, sans-serif" font-size="20" fill="#b1b3b8">替换：把真实终端输出截图存为 docs/images/03-api-test.png</text>
+</svg>

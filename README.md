@@ -1,5 +1,8 @@
 # 东软颐养中心 —— 床位管理模块
 
+[![Java 17](https://img.shields.io/badge/Java-17-ED8B00?logo=openjdk&logoColor=white)](Bed%20Management/pom.xml) [![Spring Boot 3.5.16](https://img.shields.io/badge/Spring_Boot-3.5.16-6DB33F?logo=springboot&logoColor=white)](Bed%20Management/pom.xml) [![MyBatis-Plus 3.5.17](https://img.shields.io/badge/MyBatis--Plus-3.5.17-red)](Bed%20Management/pom.xml) [![MySQL 8 / H2](https://img.shields.io/badge/Database-MySQL_8_%7C_H2-4479A1?logo=mysql&logoColor=white)](Bed%20Management/src/main/resources/application.yml)
+[![Vue 3.5](https://img.shields.io/badge/Vue-3.5-4FC08D?logo=vuedotjs&logoColor=white)](care-center-ui-main/package.json) [![Element Plus 2.14](https://img.shields.io/badge/Element_Plus-2.14-409EFF)](care-center-ui-main/package.json) [![Vite 8](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)](care-center-ui-main/package.json) [![Node.js 20+](https://img.shields.io/badge/Node.js-20%2B-339933?logo=nodedotjs&logoColor=white)](care-center-ui-main/package.json) [![接口自测 32 项](https://img.shields.io/badge/API_Tests-32_assertions-brightgreen)](verify/api-test.ps1)
+
 本目录是「床位管理」模块的完整交付物，包含 **Spring Boot 后端** 和 **复用已有的 Vue 前端**。
 
 ```
@@ -7,6 +10,7 @@ d:\床位管理（2）
 ├── Bed Management\          # 后端（Spring Boot 3 + MyBatis-Plus）
 ├── care-center-ui-main\     # 前端（Vue 3 + Element Plus + Vite）
 ├── verify\                  # 接口自测脚本（api-test.ps1，32 项断言）
+├── docs\images\             # 界面截图（README 顶部「📸 界面预览」用的图）
 ├── settings.xml             # Maven 阿里云镜像配置（可选，构建时 -s 指定）
 └── README.md                # 本文件
 ```
@@ -16,7 +20,7 @@ d:\床位管理（2）
 > 🚀 **只想赶紧跑起来？看这里**（本仓库**不含** `target/` 和 `node_modules/`，克隆后需要自己构建一次）
 >
 > ```bash
-> # 环境要求：JDK 17+、Maven 3.9+、Node 18+（MySQL 8 可选，不装也能用 H2 演示模式跑通全部接口）
+> # 环境要求：JDK 17+、Maven 3.9+、Node 20.19+（Vite 8 要求 ^20.19.0 || >=22.12.0；MySQL 8 可选，不装也能用 H2 演示模式跑通全部接口）
 >
 > # ① 启动后端（H2 内存库演示模式，零配置、不用装 MySQL）
 > cd "Bed Management"
@@ -38,6 +42,19 @@ d:\床位管理（2）
 > ```
 >
 > 想用 MySQL（正式交付方式）？见下面 **「三、怎么跑起来」**；想用 H2 演示？见 **「四、没有 MySQL 时怎么演示」**。
+
+---
+
+## 📸 界面预览
+
+下面 3 张图**目前是占位图**——仓库里不放假截图，占位图上也直接写清了该位置应该显示什么。
+你本地把项目跑起来后，照 [`docs/images/README.md`](docs/images/README.md) 的两步说明换成真实截图即可（`Win + Shift + S` 截图 → 存成 `01-bed-map.png` → README 里 `.svg` 改成 `.png` → `git commit && git push`）。
+
+| 床位示意图（楼层 → 房间 → 床位三色状态） | 床位管理（条件查询 / 改结束时间 / 调换床位） |
+| :---: | :---: |
+| ![床位示意图](docs/images/01-bed-map.svg) | ![床位管理列表](docs/images/02-bed-manage.svg) |
+
+![32 项接口自测全部通过](docs/images/03-api-test.svg)
 
 ---
 
