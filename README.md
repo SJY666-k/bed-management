@@ -13,7 +13,31 @@ d:\床位管理（2）
 
 > 📎 **另：本文件后半部分是一份「零基础复习手册」**（从第 0 节到第 19 节，约 2400 行），
 > 把本次开发用到的**所有知识点**（Java / Spring Boot / HTTP / 数据库 / MyBatis-Plus / 事务 / 日期时区 / Vue 3 / Element Plus / axios / Vite / 中文乱码 / 命令行 / 排错方法 / 8 个真实踩坑复盘 / 名词速查表 / 30 道自测题）
-> 逐条讲了一遍，**专门写给"什么都不会的小白"**。想复习就直接往下滚到 **「第二部分 · 复习手册」**。
+> 🚀 **只想赶紧跑起来？看这里**（本仓库**不含** `target/` 和 `node_modules/`，克隆后需要自己构建一次）
+>
+> ```bash
+> # 环境要求：JDK 17+、Maven 3.9+、Node 18+（MySQL 8 可选，不装也能用 H2 演示模式跑通全部接口）
+>
+> # ① 启动后端（H2 内存库演示模式，零配置、不用装 MySQL）
+> cd "Bed Management"
+> mvn -s ..\settings.xml clean package -DskipTests
+> java -jar target/bed-management-1.0.0.jar --spring.profiles.active=h2
+> #   → 接口地址   http://localhost:8080/api
+> #   → 接口文档   http://localhost:8080/api/swagger-ui/index.html
+> #   → H2 控制台  http://localhost:8080/api/h2-console
+> #     JDBC URL: jdbc:h2:mem:yiyang;MODE=MySQL;DB_CLOSE_DELAY=-1   用户: sa   密码: 空
+>
+> # ② 启动前端（另开一个终端窗口）
+> cd care-center-ui-main
+> npm install
+> npm run dev
+> #   → 浏览器打开 http://localhost:5173 ，左侧菜单进「床位示意图」/「床位管理」
+>
+> # ③ 一键自测（可选，会把 5 个接口连失败分支一起跑 32 项断言）
+> powershell -ExecutionPolicy Bypass -File verify\api-test.ps1
+> ```
+>
+> 想用 MySQL（正式交付方式）？见下面 **「三、怎么跑起来」**；想用 H2 演示？见 **「四、没有 MySQL 时怎么演示」**。
 
 ---
 
