@@ -200,7 +200,7 @@ spring:
 
 | 文件 | 要改的地方 |
 | :--- | :--- |
-| `vite.config.js` | `server.port: 5173` 是否被占；`proxy['/api'].target` 指向主项目后端端口 |
+| `vite.config.js` | `server.port: 5173` 是否被占；`proxy['/api'].target` 指向主项目后端端口。本文件已设 `host: true`（手机/别人电脑可用 `本机局域网IP:5173` 访问），主项目若也有设置，保留主项目那份 |
 | `src/main.js` | `axios.defaults.baseURL = '/api'`，必须与后端 `context-path` 一致 |
 | `src/App.vue` | 本模块用**内部变量**切换两个页面（没有用 vue-router）；主项目若用 vue-router，把 `BedMap.vue` / `BedManage.vue` 注册成两条路由即可 |
 
