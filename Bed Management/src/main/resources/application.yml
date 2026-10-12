@@ -1,12 +1,8 @@
-# =====================================================================
-#  东软颐养中心管理系统 —— 床位管理模块
-#  默认使用 MySQL 数据库（生产 / 交付环境）
-# =====================================================================
+# 东软颐养中心管理系统 —— 床位管理模块（默认 profile 使用 MySQL）
 server:
   port: 8080
   servlet:
-    # 前端 axios 的 baseURL 是 /api，Vite 代理不做路径重写，
-    # 所以这里把整个应用的访问前缀统一设置为 /api。
+    # 与前端 axios baseURL、Vite 代理前缀保持一致
     context-path: /api
 
 spring:
@@ -15,35 +11,34 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    # 数据库名请按自己电脑上的实际库名修改（建库脚本见 sql/yiyang_bed.sql）
+    # 库名按实际环境修改，建库脚本见 sql/yiyang_bed.sql
     url: jdbc:mysql://localhost:3306/yiyang?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
-    # TODO 改成你本机 MySQL 的密码
+    # TODO 按实际环境修改密码
     password: 123456
 
-  # 全局 JSON 序列化配置
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
     serialization:
-      # 日期不要输出成时间戳，直接输出字符串，前端才方便 split('T')[0]
+      # 日期输出为字符串，不要时间戳
       write-dates-as-timestamps: false
     default-property-inclusion: always
 
 # MyBatis-Plus 配置
 mybatis-plus:
-  # XML 映射文件位置（床位统计、床位使用详情多表联查写在 XML 中）
+  # XML 映射文件位置
   mapper-locations: classpath*:/mapper/**/*.xml
   type-aliases-package: com.neusoft.yiyang.entity
   configuration:
-    # 数据库下划线字段自动映射成 Java 驼峰属性：bed_status -> bedStatus
+    # 下划线字段自动映射为驼峰属性：bed_status -> bedStatus
     map-underscore-to-camel-case: true
-    # 控制台打印 SQL，方便调试；上线可改成 org.apache.ibatis.logging.nologging.NoLoggingImpl
+    # 打印 SQL 便于调试，生产环境建议关闭
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     banner: false
     db-config:
-      # 主键策略：跟随数据库自增
+      # 主键策略：数据库自增
       id-type: auto
 
 # Swagger 接口文档地址： http://localhost:8080/api/swagger-ui.html
@@ -59,7 +54,6 @@ logging:
   level:
     com.neusoft.yiyang: debug
 
-# 业务自定义配置
 yiyang:
-  # 所属楼房编号（本项目固定为 606 栋，用于拼接「床位详情」描述）
+  # 楼房编号，用于拼接「床位详情」描述
   building-no: "606"

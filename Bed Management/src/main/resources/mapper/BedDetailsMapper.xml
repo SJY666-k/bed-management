@@ -3,10 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.neusoft.yiyang.mapper.BedDetailsMapper">
 
-    <!--
-        床位管理列表：beddetails 联查 customer 拿到姓名、性别。
-        三个查询条件都是可选的（多条件组合查询），因此用 <if> 动态拼接。
-    -->
+    <!-- 床位管理列表：beddetails 联查 customer 取姓名、性别；查询条件均可选，用 <if> 动态拼接 -->
     <select id="selectDetailsList" resultType="com.neusoft.yiyang.vo.BedDetailsVO">
         SELECT bd.id          AS id,
                bd.customer_id AS customerId,

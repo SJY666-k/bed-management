@@ -52,10 +52,7 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!--
-            H2 内存数据库：仅用于「不装 MySQL 也能跑起来看效果」的本地演示 profile（h2）。
-            生产/交付使用 MySQL，该依赖不参与业务代码，可安全删除。
-        -->
+        <!-- H2 内存库：仅本地演示 profile 使用，不参与业务代码 -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -85,12 +82,7 @@
 
     <build>
         <plugins>
-            <!--
-                必须显式声明 annotationProcessorPaths：
-                JDK 23 起 javac 不再隐式扫描 classpath 上发现的注解处理器（JEP/8306819），
-                只写了 lombok 依赖而不配置 processor path 的话，getter/setter/log 都不会生成，
-                编译会报一堆「找不到符号 getXxx()」。显式声明后 JDK 17~25 都能正常工作。
-            -->
+            <!-- JDK 23 起 javac 不再隐式扫描 classpath 上的注解处理器，需显式声明 lombok 处理器，否则 getter/setter/log 不会生成 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -120,10 +112,7 @@
         </plugins>
     </build>
 
-    <!--
-        国内网络访问 Maven 中央仓库较慢，这里默认使用阿里云镜像仓库。
-        如果你的电脑已经配置好 settings.xml 镜像，可以删除下面的 repository 配置。
-    -->
+    <!-- 国内访问 Maven 中央仓库较慢，默认使用阿里云镜像；已配置全局镜像时可删除 -->
     <repositories>
         <repository>
             <id>aliyun-public</id>

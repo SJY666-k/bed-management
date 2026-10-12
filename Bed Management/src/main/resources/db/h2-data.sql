@@ -1,7 +1,4 @@
--- =====================================================================
---  H2 演示数据（与 sql/yiyang_bed.sql 中的 MySQL 演示数据完全一致）
---  48 张床位：空闲 40、有人 6、外出 2
--- =====================================================================
+-- H2 演示数据（与 sql/yiyang_bed.sql 一致）：48 张床位，空闲 40、有人 6、外出 2
 
 INSERT INTO room (id, room_floor, room_no)
 VALUES (1, '1', 101),
@@ -17,7 +14,7 @@ VALUES (1, '1', 101),
        (11, '2', 205),
        (12, '2', 206);
 
--- 每个房间 4 张床位：id = (房间id - 1) * 4 + 第几张床
+-- 每个房间 4 张床位：id = (房间 id - 1) * 4 + 床序号
 INSERT INTO bed (id, room_no, bed_status, remarks, bed_no)
 SELECT (r.id - 1) * 4 + b.n, r.room_no, 1, NULL, CAST(b.n AS VARCHAR(2))
 FROM room r
@@ -29,7 +26,6 @@ FROM room r
                      UNION ALL
                      SELECT 4) b;
 
--- 有些人、有些外出的床位
 UPDATE bed SET bed_status = 2 WHERE id IN (2, 6, 10, 26, 30, 41);
 UPDATE bed SET bed_status = 3 WHERE id IN (3, 27);
 

@@ -1,7 +1,5 @@
--- =====================================================================
---  H2 建表脚本（仅用于 h2 profile 的本地演示，表结构与 MySQL 完全一致）
---  H2 运行在 MODE=MySQL 下，这里去掉了 ENGINE / COMMENT 等 MySQL 专有语法
--- =====================================================================
+-- H2 建表脚本（h2 profile 本地演示用，表结构与 MySQL 一致）
+-- H2 运行在 MODE=MySQL 下，已去掉 ENGINE / COMMENT 等 MySQL 专有语法
 
 DROP TABLE IF EXISTS beddetails;
 DROP TABLE IF EXISTS bed;

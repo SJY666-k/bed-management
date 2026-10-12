@@ -1,10 +1,6 @@
-# =====================================================================
-#  本地免安装 MySQL 的演示 profile
-#  启动方式： java -jar bed-management-1.0.0.jar --spring.profiles.active=h2
-#          或在 IDEA 的「VM options / Active profiles」里填写 h2
-#  数据放在内存里（H2），每次重启都会按 db/h2-schema.sql + db/h2-data.sql 重建，
-#  演示数据与 sql/yiyang_bed.sql 完全一致。
-# =====================================================================
+# 本地免装 MySQL 的演示 profile：java -jar bed-management-1.0.0.jar --spring.profiles.active=h2
+# 数据存放在 H2 内存库，每次启动按 db/h2-schema.sql + db/h2-data.sql 重建，
+# 演示数据与 sql/yiyang_bed.sql 一致。
 spring:
   datasource:
     driver-class-name: org.h2.Driver

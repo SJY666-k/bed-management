@@ -31,7 +31,7 @@
           <el-button type="primary">本地上传图片</el-button>
         </el-upload>
         
-        <!-- 🔥 新增：清除按钮，带摇头特效 -->
+        <!-- 清除壁纸按钮 -->
         <el-button type="danger" plain round @click="clearBgUrl" class="hover-shake">清除壁纸</el-button>
       </div>
       <p class="tip">建议图片大小不要超过 2MB，否则会占用过多本地缓存。</p>
@@ -112,7 +112,7 @@ const handleUpload = (file) => {
   margin-top: 10px;
 }
 
-/* 🔥 清除按钮的悬停摇头动画 */
+/* 清除按钮悬停动画 */
 .hover-shake:hover {
   animation: shake 0.4s ease-in-out;
   background-color: #fef0f0;

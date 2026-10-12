@@ -39,8 +39,6 @@ public class BedController {
     private final BedService bedService;
     private final BedManageService bedManageService;
 
-    // ============================ 床位示意图 ============================
-
     @Operation(summary = "床位统计", description = "统计总床位以及空闲 / 有人 / 外出的床位数量")
     @GetMapping("/statistics")
     public Result<BedStatisticsVO> statistics() {
@@ -52,8 +50,6 @@ public class BedController {
     public Result<List<RoomBedsVO>> bedMap(@RequestParam(value = "floor", defaultValue = "1") String floor) {
         return Result.success(bedService.listRoomBeds(floor));
     }
-
-    // ============================ 床位管理 ============================
 
     @Operation(summary = "床位使用详情列表", description = "按客户姓名（模糊）、入住日期、使用状态多条件组合查询")
     @GetMapping("/manage/details")

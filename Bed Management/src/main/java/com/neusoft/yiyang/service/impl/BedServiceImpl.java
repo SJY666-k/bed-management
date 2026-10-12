@@ -34,7 +34,7 @@ public class BedServiceImpl implements BedService {
     @Override
     public BedStatisticsVO statistics() {
         BedStatisticsVO statistics = bedMapper.selectStatistics();
-        // 数据库里一张床位都没有时 SUM 会返回 null，这里兜底成 0，避免前端显示 undefined
+        // 表为空时聚合结果为 null，兜底成 0，避免前端显示 undefined
         if (statistics == null) {
             statistics = new BedStatisticsVO();
             statistics.setTotal(0);
@@ -51,7 +51,7 @@ public class BedServiceImpl implements BedService {
             return Collections.emptyList();
         }
 
-        // 第 1 步：按楼层查出所有房间（room 表）
+        // 按楼层查询房间
         List<Room> rooms = roomMapper.selectList(new LambdaQueryWrapper<Room>()
                 .eq(Room::getRoomFloor, floor.trim())
                 .orderByAsc(Room::getRoomNo));
@@ -59,14 +59,14 @@ public class BedServiceImpl implements BedService {
             return Collections.emptyList();
         }
 
-        // 第 2 步：一次查出这些房间下的所有床位（bed 表），避免 N+1 查询
+        // 一次查出房间下的床位，避免 N+1 查询
         List<Integer> roomNos = rooms.stream().map(Room::getRoomNo).collect(Collectors.toList());
         List<Bed> beds = bedMapper.selectList(new LambdaQueryWrapper<Bed>()
                 .in(Bed::getRoomNo, roomNos)
                 .orderByAsc(Bed::getRoomNo)
                 .orderByAsc(Bed::getId));
 
-        // 第 3 步：按房间号分组，组装成前端需要的 [{roomNo, beds:[{id, bedNo, bedStatus}]}]
+        // 按房间号分组： [{roomNo, beds:[{id, bedNo, bedStatus}]}]
         Map<Integer, List<Bed>> bedGroup = beds.stream().collect(Collectors.groupingBy(Bed::getRoomNo));
         List<RoomBedsVO> result = new ArrayList<>(rooms.size());
         for (Room room : rooms) {

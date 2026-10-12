@@ -88,7 +88,7 @@ onMounted(() => {
 .room-list { display: flex; flex-wrap: wrap; gap: 20px; }
 .bed-grid { display: flex; flex-wrap: wrap; gap: 15px; }
 
-/* 房间小卡片也使用全局变量，自适应白天黑夜 */
+/* 房间卡片使用全局变量，自适应白天黑夜 */
 .room-item { 
   border: 1px solid var(--glass-border); 
   border-radius: 8px; 

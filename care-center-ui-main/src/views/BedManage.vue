@@ -187,7 +187,7 @@ onMounted(() => { fetchDetails() })
 <style scoped>
 .search-card { margin-bottom: 20px; }
 
-/* 🔥 表格完全透明化，与毛玻璃底衬融为一体 */
+/* 表格透明化，与毛玻璃底衬融合 */
 .transparent-table {
   background-color: transparent !important;
 }
@@ -200,7 +200,7 @@ onMounted(() => { fetchDetails() })
 :deep(.transparent-table .el-table__inner-wrapper::before) {
   display: none; /* 去除底部横线 */
 }
-/* 鼠标悬浮时呈现淡淡的玻璃色，而不是突兀的白色 */
+/* 鼠标悬浮时的玻璃色 */
 :deep(.transparent-table tbody tr:hover > td.el-table__cell) {
   background-color: var(--glass-hover) !important;
 }

@@ -9,9 +9,8 @@ import java.time.format.DateTimeFormatter;
 /**
  * 日期工具类。
  *
- * <p>前端 el-date-picker 在没有配置 {@code value-format} 时会传来 ISO 字符串
- * （例如 {@code 2025-10-10T16:00:00.000Z}），这里做兼容处理：统一截取前 10 位再解析，
- * 既能接受 {@code 2025-10-10}，也能接受上面那种带时区的字符串。</p>
+ * <p>前端可能传来 {@code 2025-10-10}，也可能传来带时区的
+ * {@code 2025-10-10T16:00:00.000Z}，这里统一截取前 10 位再解析。</p>
  */
 public final class DateUtils {
 

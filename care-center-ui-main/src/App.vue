@@ -56,7 +56,7 @@ const themeMode = ref(localStorage.getItem('themeMode') || 'light')
 const globalBgUrl = ref(localStorage.getItem('bgUrl') || '')
 const globalBgOpacity = ref(parseFloat(localStorage.getItem('bgOpacity')) || 0.8)
 
-// 🔥 动态监测是否有背景图，如果有，就给 body 加上 has-bg 的类
+// 有背景图时给 body 加上 has-bg 类
 watch(globalBgUrl, (val) => {
   if (val) {
     document.body.classList.add('has-bg')
@@ -112,7 +112,7 @@ onMounted(() => {
 body { margin: 0; background-color: #f5f7fa; font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', Arial, sans-serif; }
 html.dark body { background-color: #141414; }
 
-/* 🔥 玻璃特效核心变量：白天与黑夜自动切换 */
+/* 玻璃特效变量：白天 / 黑夜自动切换 */
 :root {
   --glass-bg: rgba(255, 255, 255, 0.45);
   --glass-border: rgba(255, 255, 255, 0.4);

@@ -47,15 +47,12 @@ public class BedManageServiceImpl implements BedManageService {
     @Value("${yiyang.building-no:606}")
     private String buildingNo;
 
-    // ==================================================================
-    //  1. 床位使用详情：多条件组合查询
-    // ==================================================================
     @Override
     public List<BedDetailsVO> listDetails(BedDetailsQueryDTO query) {
         BedDetailsQueryDTO condition = query == null ? new BedDetailsQueryDTO() : query;
 
-        // 前端「床位管理」页签：1 = 正在使用、0 = 使用历史（注意与 is_deleted 的 0/1 正好相反）。
-        // 不传 status 或非法值时，默认查「正在使用」。
+        // 页签取值：1 = 正在使用、0 = 使用历史（与 is_deleted 的 0/1 相反）；
+        // 不传或非法值时默认查「正在使用」。
         int tabStatus = condition.getStatus() == null ? BedDetailsStatus.TAB_IN_USE : condition.getStatus();
         int isDeleted = (tabStatus == BedDetailsStatus.TAB_HISTORY)
                 ? BedDetailsStatus.HISTORY
@@ -64,15 +61,12 @@ public class BedManageServiceImpl implements BedManageService {
         String customerName = StringUtils.hasText(condition.getCustomerName())
                 ? condition.getCustomerName().trim()
                 : null;
-        // 前端日期控件可能传 ISO 字符串，统一截取成 yyyy-MM-dd
+        // 统一成 yyyy-MM-dd（前端可能传 ISO 字符串）
         String startDate = DateUtils.normalize(condition.getStartDate());
 
         return bedDetailsMapper.selectDetailsList(isDeleted, customerName, startDate);
     }
 
-    // ==================================================================
-    //  2. 修改床位使用结束时间（需求：只能修改床位使用的结束时间）
-    // ==================================================================
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateEndTime(UpdateEndTimeDTO dto) {
@@ -90,7 +84,7 @@ public class BedManageServiceImpl implements BedManageService {
             throw new BusinessException("结束时间不能早于入住时间：" + record.getStartDate());
         }
 
-        // 只更新结束时间，其它字段一律不动（需求要求「只能修改结束时间」）
+        // 只更新结束时间，其它字段不动（需求：只能修改结束时间）
         BedDetails update = new BedDetails();
         update.setId(record.getId());
         update.setEndDate(endDate);
@@ -99,9 +93,6 @@ public class BedManageServiceImpl implements BedManageService {
         log.info("修改床位使用结束时间：beddetailsId={}, endDate={}", record.getId(), endDate);
     }
 
-    // ==================================================================
-    //  3. 床位调换
-    // ==================================================================
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void swapBed(BedSwapDTO dto) {
@@ -112,20 +103,19 @@ public class BedManageServiceImpl implements BedManageService {
             throw new BusinessException("请选择要调换的空闲床位");
         }
 
-        // 3.1 需求要求：只能是当天调换当天办理
+        // 需求要求：只能当天调换当天办理
         LocalDate today = LocalDate.now();
         LocalDate swapDate = DateUtils.parse(dto.getSwapDate());
         if (swapDate != null && !swapDate.isEqual(today)) {
             throw new BusinessException("床位调换只能当天调换当天办理");
         }
 
-        // 3.2 客户必须存在
         Customer customer = customerMapper.selectById(dto.getCustomerId());
         if (customer == null) {
             throw new BusinessException("客户不存在，客户ID：" + dto.getCustomerId());
         }
 
-        // 3.3 新床位必须存在且空闲（不能调换到已住人的床位）
+        // 新床位必须存在且空闲
         Bed newBed = bedMapper.selectById(dto.getNewBedId());
         if (newBed == null) {
             throw new BusinessException("目标床位不存在，床位ID：" + dto.getNewBedId());
@@ -134,7 +124,7 @@ public class BedManageServiceImpl implements BedManageService {
             throw new BusinessException("只能调换到空闲的床位");
         }
 
-        // 3.4 新床位必须属于所选的楼层与房间
+        // 校验新床位是否属于所选楼层与房间
         Room newRoom = roomMapper.selectOne(new LambdaQueryWrapper<Room>()
                 .eq(Room::getRoomNo, newBed.getRoomNo())
                 .last("LIMIT 1"));
@@ -148,7 +138,7 @@ public class BedManageServiceImpl implements BedManageService {
             throw new BusinessException("所选床位不属于所选楼层");
         }
 
-        // 3.5 取出该客户当前正在使用的床位记录
+        // 客户当前正在使用的床位记录
         BedDetails current = bedDetailsMapper.selectOne(new LambdaQueryWrapper<BedDetails>()
                 .eq(BedDetails::getCustomerId, dto.getCustomerId())
                 .eq(BedDetails::getIsDeleted, BedDetailsStatus.IN_USE)
@@ -160,14 +150,14 @@ public class BedManageServiceImpl implements BedManageService {
         if (current.getBedId() != null && current.getBedId().equals(dto.getNewBedId())) {
             throw new BusinessException("新床位与当前床位相同，无需调换");
         }
-        // 3.6 旧床位记录失效：is_deleted 置 1，结束时间改为当天
+        // 旧使用记录失效：is_deleted = 1，结束时间改为当天
         BedDetails closeOld = new BedDetails();
         closeOld.setId(current.getId());
         closeOld.setIsDeleted(BedDetailsStatus.HISTORY);
         closeOld.setEndDate(today);
         bedDetailsMapper.updateById(closeOld);
 
-        // 3.7 旧床位状态改回空闲
+        // 旧床位恢复空闲
         if (current.getBedId() != null) {
             Bed oldBed = new Bed();
             oldBed.setId(current.getBedId());
@@ -175,13 +165,13 @@ public class BedManageServiceImpl implements BedManageService {
             bedMapper.updateById(oldBed);
         }
 
-        // 3.8 新床位状态改为有人
+        // 新床位标记为有人
         Bed occupyNewBed = new Bed();
         occupyNewBed.setId(newBed.getId());
         occupyNewBed.setBedStatus(BedStatus.OCCUPIED);
         bedMapper.updateById(occupyNewBed);
 
-        // 3.9 新增一条使用记录：入住时间为当天，结束时间为空
+        // 新增使用记录：入住时间为当天，结束时间为空
         BedDetails newRecord = new BedDetails();
         newRecord.setCustomerId(customer.getId());
         newRecord.setBedId(newBed.getId());
@@ -190,7 +180,7 @@ public class BedManageServiceImpl implements BedManageService {
         newRecord.setIsDeleted(BedDetailsStatus.IN_USE);
         bedDetailsMapper.insert(newRecord);
 
-        // 3.10 同步客户信息：新房间号、新床位号、所属楼房
+        // 同步客户信息：房间号、床号、楼房
         Customer updateCustomer = new Customer();
         updateCustomer.setId(customer.getId());
         updateCustomer.setRoomNo(String.valueOf(newRoom.getRoomNo()));
